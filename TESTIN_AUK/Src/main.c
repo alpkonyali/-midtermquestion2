@@ -1,0 +1,50 @@
+#define rccahblenR *((unsigned volatile int *) 0x40023830 )
+#define gpiodmask 1<<3
+#define gpiodModr *((unsigned volatile int *) 0x40020c00)
+#define gpiodP14mask 1<<28
+#define gpiodP12mask 1<<24
+#define gpiodOdr *((unsigned volatile int *) 0x40020c14)
+#define gpiodP14onmask 1<<14
+#define gpiodP14ofmask 0<<14
+#define gpiodP12onmask 1<<12
+#define gpiodP12ofmask ~(1<<12)
+void init_leds(){
+	rccahblenR =gpiodmask;
+		gpiodModr=gpiodP14mask;
+		gpiodModr |=gpiodP12mask;
+}
+void turn_alpumut_on(){
+	gpiodOdr=gpiodP14onmask;
+}
+void turn_konyali_on(){
+	gpiodOdr |=gpiodP12onmask;
+}
+void turn_alpumut_off(){
+	gpiodOdr&=gpiodP14ofmask;
+}
+void turn_konyali_off(){
+	gpiodOdr&=gpiodP12ofmask;
+}
+void delayy(){
+	int  delay0 = 0x0FFFFFFF;
+	while (delay0--){
+		}
+}
+
+int main () {
+	//Since there are 7 letters in my name and surname, I took all the functions together.
+  //  name: alpumut surname:konyali
+	init_leds();
+	for(int i =1;i<=7;i++){
+		turn_alpumut_on();
+	delayy();
+	    turn_alpumut_off();
+	    turn_konyali_on();
+	delayy();
+	    turn_konyali_off();
+
+	}
+
+	return 0;
+}
+
